@@ -2,14 +2,11 @@
     
 var canvas: HTMLCanvasElement;
 var ctx: CanvasRenderingContext2D;
-var y, x, dx, dy;
+var y, x, dx, dy, ballRadius;
 
 function gameLoop()
 {
     requestAnimationFrame(gameLoop);
-    
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, 320, 480);
     draw();
 }
 
@@ -21,23 +18,34 @@ window.onload = () =>
     y = canvas.height - 30;
     dx = 2;
     dy = -2;
+    ballRadius = 10;
     gameLoop();
 }
     function drawBall()
     {
+        if (y + dy < 0 || y + dy > canvas.height)
+        {
+            dy = -dy;
+        }
+        if (x + dx > canvas.width || x + dx < 0)
+        {
+            dx = -dx;
+        }
         ctx.beginPath();
-        ctx.arc(x, y, 10, 0, Math.PI*2);
+        ctx.arc(x, y, ballRadius, 0, Math.PI*2);
         ctx.fillStyle = "#0095DD";
         ctx.fill();
         ctx.closePath();
+
     }
 
     function draw()
     {
         // drawing code
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        //ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         drawBall();
         x += dx;
         y += dy;
     }
-//    setInterval(draw, 10);
